@@ -24,21 +24,27 @@ istream& operator >> (istream& is, Query& q) {
   // Реализуйте эту функцию
   string operation_code;
   is >> operation_code;
-  switch (operation_code) {
-    case "NEW_BUS":
-      q.bus = QueryType::NewBus;
+  if (operation_code == "NEW_BUS"){
+      q.type = QueryType::NewBus;
       is >> q.bus;
       int stop_count;
       is >> stop_count;
       q.stops.resize(stop_count);
-      for (string& stop: stops){
+      for (string& stop: q.stops){
         is >> stop;
       }
-      break;
+  }
+  if (operation_code == "BUSES_FOR_STOP"){
+      q.type = QueryType::BusesForStop;
+      is >> q.stop;
+  }
+  if (operation_code == "STOPS_FOR_BUS"){
+      q.type = QueryType::StopsForBus;
+      is >> q.bus;
+  }
 
-    case "BUSES_FOR_STOP":
-      //here
-      break;
+  if (operation_code == "ALL_BUSES"){
+      q.type = QueryType::AllBuses;
   }
   return is;
 }
